@@ -28,7 +28,21 @@ async def adduser(user:User):
 @app.get("/user")
 async def get_users(user_id:int):
     if user_id in userinfo:
-     return {f"list user information,{userinfo}"}
+         return JSONResponse(
+        status_code=200,
+        content={
+            "message": "User showed successfully",
+            "users": userinfo})
+
+    return JSONResponse(
+            status_code=404,
+            content={
+                "message": "User not in ",
+                "users": userinfo
+            }
+        )
+    
+   
     
 
 @app.put("/user")
@@ -58,7 +72,14 @@ async def delete_user(user_id: int):
                 "message": "User deleted successfully",
                 "users": userinfo
             })
-
+    
+    return JSONResponse(
+            status_code=404,
+            content={
+                "message": "User not in ",
+                "users": userinfo
+            })
+       
 #@app.get("/{name}")
 #def fun(name:str):
     #return {'message:' f"say hello: {name}"}      
