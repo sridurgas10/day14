@@ -25,24 +25,22 @@ async def adduser(user:User):
             "users": userinfo})
 
 
-@app.get("/user")
-async def get_users(user_id:int):
+@app.get("/user/")
+async def get_user(user_id: int):
     if user_id in userinfo:
-         return JSONResponse(
-        status_code=200,
-        content={
-            "message": "User showed successfully",
-            "users": userinfo})
-
-    return JSONResponse(
-            status_code=404,
+        return JSONResponse(
+            status_code=200,
             content={
-                "message": "User not in ",
-                "users": userinfo
+                "message": "User found successfully",
+                "user": userinfo[user_id]
             }
         )
-    
-   
+    else:
+        return JSONResponse(
+            status_code=404,
+            content={
+                "message": "User ID not found"
+            })    
     
 
 @app.put("/user")
@@ -54,6 +52,7 @@ async def updateuser(user_id:int,user:User):
             "user_name": user.user_name,
             "user_contact_number": user.user_contact_number
         }
+        
     return JSONResponse(
             status_code=200,
             content={
@@ -61,7 +60,7 @@ async def updateuser(user_id:int,user:User):
                 "users": userinfo
             }
         )
-    
+
 @app.delete("/user/{user_id}")
 async def delete_user(user_id: int):
     if user_id in userinfo:
@@ -73,10 +72,11 @@ async def delete_user(user_id: int):
                 "users": userinfo
             })
     
-    return JSONResponse(
+    else:
+         return JSONResponse(
             status_code=404,
             content={
-                "message": "User not in ",
+                "message": "Userid not in ",
                 "users": userinfo
             })
        
